@@ -37,12 +37,28 @@ fn setup_camera(mut commands: Commands) {
 
 //just to test the movement of the snake
 //query finds anything with the struct 'SnakeHead' or 'Transform'
-fn snake_movement(mut head_positions: Query<(&SnakeHead, &mut Transform)>){
-    for (_head, mut transform) in head_positions.iter_mut(){
-        transform.translation.y += 2.;
+fn snake_movement(
+
+    keyboard_input: Res<Input<KeyCode>>,
+    mut head_positions: Query<&mut Transform, With<SnakeHead>>,
+) {
+
+    //here we're using the query to find the head_position of anything with struct SnakeHead
+    for mut transform in head_positions.iter_mut() {
+        if keyboard_input.pressed(KeyCode::Left){
+            transform.translation.x -= 2.;
+        }
+        if keyboard_input.pressed(KeyCode::Right){
+            transform.translation.x += 2.;
+        }
+        if keyboard_input.pressed(KeyCode::Down){
+            transform.translation.y -= 2.;
+        }
+        if keyboard_input.pressed(KeyCode::Up){
+            transform.translation.y += 2.;
+        }
     }
 }
-
 
 
 
